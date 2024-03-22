@@ -10,7 +10,7 @@ import { get_otp_service } from '@gateway/services/auth';
 async function get_otp(req: Request, res: Response): Promise<void> {
   const { phoneNumber } = req.body;
   const response = await get_otp_service(phoneNumber);
-  res.status(statusCode.OK).json({ message: response.data.message });
+  res.status(statusCode.OK).json({ message: response.data });
 }
 
 export { get_otp };
