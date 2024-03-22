@@ -4,9 +4,10 @@ import { config } from '@gateway/config';
 import { appRoutes } from './routes';
 
 import winstonLogger from '@gateway/utils/logger';
+import { Logger } from 'winston';
 
 const port = config.PORT;
-const logger = winstonLogger('debug');
+const logger : Logger = winstonLogger('debug');
 
 export function start(app: Application) {
   appConfig(app);

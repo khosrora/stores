@@ -4,6 +4,7 @@ npm i
 //pino-pretty
 //winston
 //http-status-codes
+//mongoose @types/mongoose
 
 // ts install
 npm i -D typescript @types/express @types/node @types/winston nodemon
