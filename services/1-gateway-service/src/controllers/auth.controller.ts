@@ -1,6 +1,6 @@
-import statusCode from 'http-status-codes';
+import statusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import { get_otp_service } from '@gateway/services/auth';
+import { get_otp_service, check_otp_service } from '@gateway/services/auth';
 
 // ! login routes
 // * get Otp
@@ -10,7 +10,13 @@ import { get_otp_service } from '@gateway/services/auth';
 async function get_otp(req: Request, res: Response): Promise<void> {
   const { phoneNumber } = req.body;
   const response = await get_otp_service(phoneNumber);
-  res.status(statusCode.OK).json({ message: response.data });
+  res.status(response.data.status).json(response.data);
 }
 
-export { get_otp };
+async function check_otp(req: Request, res: Response): Promise<void> {
+  const { phoneNumber, code } = req.body;
+  const response = await check_otp_service(phoneNumber, code);
+  res.status(response.data.status).json(response.data);
+}
+
+export { get_otp, check_otp };

@@ -11,4 +11,9 @@ const get_otp_service = async (phoneNumber: string): Promise<AxiosResponse> => {
   return res;
 };
 
-export { get_otp_service };
+const check_otp_service = async (phoneNumber: string, code: number): Promise<AxiosResponse> => {
+  const res = await axiosInstance.post('/check_otp', { phoneNumber, code });
+  return res;
+};
+
+export { get_otp_service, check_otp_service };

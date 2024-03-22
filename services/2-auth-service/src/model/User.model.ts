@@ -4,7 +4,7 @@ import mongoose, { Schema } from 'mongoose';
 const UserSchema: Schema = new Schema<IUser>(
   {
     phoneNumber: { type: String, required: true, unique: true },
-    otpCode: { type: String, required: true, unique: true },
+    otpCode: { type: Number, required: true, unique: true },
     isSeller: { type: Boolean, default: false }
   },
   {
