@@ -1,5 +1,5 @@
 import http from 'http';
-import { Application } from 'express';
+import { Application, json } from 'express';
 import { config } from '@gateway/config';
 import { appRoutes } from './routes';
 
@@ -9,12 +9,17 @@ const port = config.PORT;
 const logger = winstonLogger('debug');
 
 export function start(app: Application) {
+  appConfig(app);
   routes(app);
   server(app);
 }
 
 function routes(app: Application) {
   appRoutes(app);
+}
+
+function appConfig(app: Application) {
+  app.use(json());
 }
 
 function server(app: Application) {

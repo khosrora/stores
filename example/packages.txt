@@ -3,6 +3,7 @@ npm i
 //dotenv
 //pino-pretty
 //winston
+//http-status-codes
 
 // ts install
 npm i -D typescript @types/express @types/node @types/winston nodemon

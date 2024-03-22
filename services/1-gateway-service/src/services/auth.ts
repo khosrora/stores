@@ -1,7 +1,14 @@
-const get_otp_service = async (): Promise<any> => {
-  return {
-    message: 'کد تایید برای شما ارسال شد'
-  };
+import axios, { AxiosResponse } from 'axios';
+import { config } from '@gateway/config';
+
+const axiosInstance = axios.create({
+  baseURL: config.BASE_PATH_AUTH!,
+  headers: { 'micro-service': 'auth' }
+});
+
+const get_otp_service = async (phoneNumber: string): Promise<AxiosResponse> => {
+  const res = await axiosInstance.post('/get_otp', { phoneNumber });
+  return res;
 };
 
 export { get_otp_service };
