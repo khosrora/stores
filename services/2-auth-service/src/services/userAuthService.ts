@@ -4,10 +4,26 @@ import { createRandomNumber } from '@auth/utils/randomNumber';
 import { IUser } from '@auth/utils/User.interface';
 import { StatusCodes } from 'http-status-codes';
 import { Logger } from 'winston';
+import * as jwt from 'jsonwebtoken';
+import { phoneNumberValidationSchema } from '@auth/schema/phoneNumberValidation';
+import { checkCodeValidation } from '@auth/schema/checkCodeValidation';
+import { refreshTokenValidationSchema } from '@auth/schema/refreshTokenValidation';
 
 const logger: Logger = winstonLogger('debug');
 
+interface JwtPayload {
+  id: string;
+}
+
 export const getOtpService = async (data: { phoneNumber: string }) => {
+  const validation = phoneNumberValidationSchema.validate(data);
+  if (validation.error) {
+    return {
+      status: StatusCodes.BAD_REQUEST,
+      message: null,
+      errors: validation.error
+    };
+  }
   const { phoneNumber } = data;
   const user: IUser | null = await findByPhoneNumber(phoneNumber);
   if (!!user) {
@@ -23,6 +39,15 @@ export const getOtpService = async (data: { phoneNumber: string }) => {
 };
 
 export const checkOtpService = async (data: { phoneNumber: string; code: number }) => {
+  const validation = checkCodeValidation.validate(data);
+  if (validation.error) {
+    return {
+      status: StatusCodes.BAD_REQUEST,
+      message: null,
+      errors: validation.error
+    };
+  }
+
   const { phoneNumber, code } = data;
   const user: IUser | null = await findByPhoneNumber(phoneNumber);
   if (!user) throw new Error('Internal Server Error from method checkOtpService()');
@@ -32,10 +57,11 @@ export const checkOtpService = async (data: { phoneNumber: string; code: number 
     user.otpCode = createRandomNumber();
     await user.save();
     // create refresh token
+    const refreshToken = await createRefreshToken(user.id);
     return {
       status: StatusCodes.OK,
       message: 'ورود با موفقیت انجام شد',
-      refreshToken: '1212'
+      refreshToken
     };
   } else {
     return {
@@ -44,6 +70,23 @@ export const checkOtpService = async (data: { phoneNumber: string; code: number 
       refreshToken: null
     };
   }
+};
+
+export const accessTokenService = async (refreshToken: string) => {
+  const validation = refreshTokenValidationSchema.validate({ refreshToken });
+  if (validation.error) {
+    return {
+      status: StatusCodes.BAD_REQUEST,
+      message: null,
+      errors: validation.error
+    };
+  }
+  const accessToken = await createAccessToken(refreshToken);
+  return {
+    status: StatusCodes.OK,
+    message: 'OK',
+    accessToken
+  };
 };
 
 const findByPhoneNumber = async (phoneNumber: string): Promise<IUser | null> => {
@@ -64,4 +107,11 @@ const create = async (phoneNumber: string) => {
   } catch (error) {
     logger.error('findByPhoneNumber() method error is :', error);
   }
+};
+
+const createRefreshToken = async (id: string): Promise<string> => jwt.sign({ id }, 'secret', { expiresIn: '15d' });
+
+const createAccessToken = async (refreshToken: string) => {
+  const { id } = (await jwt.verify(refreshToken, 'secret')) as JwtPayload;
+  return jwt.sign({ id }, 'secret', { expiresIn: '15d' });
 };

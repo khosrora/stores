@@ -16,4 +16,9 @@ const check_otp_service = async (phoneNumber: string, code: number): Promise<Axi
   return res;
 };
 
-export { get_otp_service, check_otp_service };
+const access_token_service = async (refreshToken: string): Promise<AxiosResponse> => {
+  const res = await axiosInstance.post('/access_token', { refreshToken });
+  return res;
+};
+
+export { get_otp_service, check_otp_service, access_token_service };

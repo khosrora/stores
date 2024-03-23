@@ -1,6 +1,5 @@
-import statusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import { get_otp_service, check_otp_service } from '@gateway/services/auth';
+import { get_otp_service, check_otp_service, access_token_service } from '@gateway/services/auth';
 
 // ! login routes
 // * get Otp
@@ -19,4 +18,10 @@ async function check_otp(req: Request, res: Response): Promise<void> {
   res.status(response.data.status).json(response.data);
 }
 
-export { get_otp, check_otp };
+async function access_token(req: Request, res: Response): Promise<void> {
+  const { refreshToken } = req.body;
+  const response = await access_token_service(refreshToken);
+  res.status(response.data.status).json(response.data);
+}
+
+export { get_otp, check_otp, access_token };
