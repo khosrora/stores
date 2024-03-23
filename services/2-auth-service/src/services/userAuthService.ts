@@ -65,7 +65,6 @@ export const checkOtpService = async (data: { phoneNumber: string; code: number 
     await user.save();
     // create refresh token
     const refreshToken = await createRefreshToken(user.id);
-    publishDirectMessage(authChannel, 'details-user-id', 'auth-details', JSON.stringify({ id: user.id }), 'create details user');
     return {
       status: StatusCodes.OK,
       message: 'ورود با موفقیت انجام شد',
@@ -106,10 +105,11 @@ const findByPhoneNumber = async (phoneNumber: string): Promise<IUser | null> => 
 const create = async (phoneNumber: string) => {
   try {
     // ! create user
-    await User.create({
+    const user: IUser = await User.create({
       phoneNumber,
       otpCode: createRandomNumber()
     });
+    publishDirectMessage(authChannel, 'details-user-id', 'auth-details', JSON.stringify({ id: user.id }), 'create details user');
     // ! send number and code otp to notification service
     // #TODO send number and code otp to notification service
   } catch (error) {
