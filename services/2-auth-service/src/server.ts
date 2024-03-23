@@ -5,17 +5,27 @@ import { appRoutes } from './routes';
 
 import winstonLogger from '@auth/utils/logger';
 
+import { createConnection } from '@auth/queue/connection';
+import { Channel } from 'amqplib';
+
 const port = config.PORT;
 const logger = winstonLogger('debug');
 
+export let authChannel: Channel;
+
 export function start(app: Application) {
   appConfig(app);
+  startQueue();
   routes(app);
   server(app);
 }
 
 function appConfig(app: Application) {
   app.use(json());
+}
+
+async function startQueue() {
+  authChannel = (await createConnection()) as Channel;
 }
 
 function routes(app: Application) {

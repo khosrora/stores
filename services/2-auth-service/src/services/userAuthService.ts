@@ -8,6 +8,9 @@ import * as jwt from 'jsonwebtoken';
 import { phoneNumberValidationSchema } from '@auth/schema/phoneNumberValidation';
 import { checkCodeValidation } from '@auth/schema/checkCodeValidation';
 import { refreshTokenValidationSchema } from '@auth/schema/refreshTokenValidation';
+import { config } from '@auth/config';
+import { publishDirectMessage } from '@auth/queue/auth.producer';
+import { authChannel } from '@auth/server';
 
 const logger: Logger = winstonLogger('debug');
 
@@ -50,7 +53,11 @@ export const checkOtpService = async (data: { phoneNumber: string; code: number 
 
   const { phoneNumber, code } = data;
   const user: IUser | null = await findByPhoneNumber(phoneNumber);
-  if (!user) throw new Error('Internal Server Error from method checkOtpService()');
+  if (!user)
+    return {
+      status: StatusCodes.BAD_REQUEST,
+      message: 'کاربری با این اطلاعات وجود ندارد'
+    };
   const isEqual = user.otpCode === code;
   if (isEqual) {
     // change otp user
@@ -58,6 +65,7 @@ export const checkOtpService = async (data: { phoneNumber: string; code: number 
     await user.save();
     // create refresh token
     const refreshToken = await createRefreshToken(user.id);
+    publishDirectMessage(authChannel, 'details-user-id', 'auth-details', JSON.stringify({ id: user.id }), 'create details user');
     return {
       status: StatusCodes.OK,
       message: 'ورود با موفقیت انجام شد',
@@ -109,9 +117,9 @@ const create = async (phoneNumber: string) => {
   }
 };
 
-const createRefreshToken = async (id: string): Promise<string> => jwt.sign({ id }, 'secret', { expiresIn: '15d' });
+const createRefreshToken = async (id: string): Promise<string> => jwt.sign({ id }, config.REFRESH_SECRET!, { expiresIn: '15d' });
 
 const createAccessToken = async (refreshToken: string) => {
-  const { id } = (await jwt.verify(refreshToken, 'secret')) as JwtPayload;
-  return jwt.sign({ id }, 'secret', { expiresIn: '15d' });
+  const { id } = (await jwt.verify(refreshToken, config.REFRESH_SECRET!)) as JwtPayload;
+  return jwt.sign({ id }, config.ACCESS_SECRET!, { expiresIn: '15d' });
 };
