@@ -39,9 +39,9 @@ function server(app: Application) {
 
 function htppServer(httpServer: http.Server) {
   try {
-    logger.info(`Gatway server has started with process id ${process.pid}`);
+    logger.info(`Auth server has started with process id ${process.pid}`);
     httpServer.listen(port, () => {
-      logger.info(`Gatway server running on port ${port}`);
+      logger.info(`Auth server running on port ${port}`);
     });
   } catch (error) {
     logger.error('htppServer method error :', error);

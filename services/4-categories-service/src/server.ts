@@ -1,34 +1,21 @@
 import http from 'http';
 import { Application, json } from 'express';
-import { config } from '@details/config';
+import { config } from '@categories/config';
 import { appRoutes } from './routes';
 
-import winstonLogger from '@details/utils/logger';
-
-import { createConnection } from '@details/queue/connection';
-import { createDetailsUserConsume } from '@details/queue/details.consume';
-
-import { Channel } from 'amqplib';
+import winstonLogger from '@categories/utils/logger';
 
 const port = config.PORT;
 const logger = winstonLogger('debug');
 
-export let detailsChannel: Channel;
-
 export function start(app: Application) {
   appConfig(app);
-  startQueue();
   routes(app);
   server(app);
 }
 
 function appConfig(app: Application) {
   app.use(json());
-}
-
-async function startQueue() {
-  detailsChannel = (await createConnection()) as Channel;
-  createDetailsUserConsume(detailsChannel);
 }
 
 function routes(app: Application) {
@@ -42,9 +29,9 @@ function server(app: Application) {
 
 function htppServer(httpServer: http.Server) {
   try {
-    logger.info(`Details Server has started with process id ${process.pid}`);
+    logger.info(`Categories Server has started with process id ${process.pid}`);
     httpServer.listen(port, () => {
-      logger.info(`Details Server running on port ${port}`);
+      logger.info(`Categories Server running on port ${port}`);
     });
   } catch (error) {
     logger.error('htppServer method error :', error);
