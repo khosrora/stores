@@ -1,4 +1,4 @@
-import { ICategories } from '@categories/utils/Categories.interface';
+import { ICategories } from '@grouping/utils/Categories.interface';
 import mongoose, { Schema } from 'mongoose';
 
 const CategoriesSchema: Schema = new Schema(

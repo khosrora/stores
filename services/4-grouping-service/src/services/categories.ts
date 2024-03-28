@@ -1,11 +1,11 @@
 import HttpStatus from 'http-status-codes';
-import Category from '@categories/model/Categories.model';
-import { category, ICategories } from '@categories/utils/Categories.interface';
-import { checkCreateCategory } from '@categories/schema/checkCreateCategory';
+import Category from '@grouping/model/Categories.model';
+import { category, ICategories } from '@grouping/utils/Categories.interface';
+import { checkCreateCategory } from '@grouping/schema/checkCreateCategory';
 
 // ! for find _id in aggregate
 import mongoose from 'mongoose';
-import { checkEditCategory } from '@categories/schema/checkEditCategory';
+import { checkEditCategory } from '@grouping/schema/checkEditCategory';
 const ObjectId = mongoose.Types.ObjectId;
 
 export const createCategoryService = async (data: category) => {

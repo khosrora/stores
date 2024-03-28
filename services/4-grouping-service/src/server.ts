@@ -1,9 +1,9 @@
 import http from 'http';
 import { Application, json } from 'express';
-import { config } from '@categories/config';
+import { config } from '@grouping/config';
 import { appRoutes } from './routes';
 
-import winstonLogger from '@categories/utils/logger';
+import winstonLogger from '@grouping/utils/logger';
 
 const port = config.PORT;
 const logger = winstonLogger('debug');

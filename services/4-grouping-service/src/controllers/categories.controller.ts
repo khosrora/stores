@@ -7,8 +7,8 @@ import {
   getService,
   deleteCategoryService,
   editCategoryService
-} from '@categories/services/categories';
-import { category } from '@categories/utils/Categories.interface';
+} from '@grouping/services/categories';
+
 
 export async function createCategory(req: Request, res: Response) {
   const response = await createCategoryService(req.body);

@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { Logger } from 'winston';
 
-import winstonLogger from '@categories/utils/logger';
+import winstonLogger from '@grouping/utils/logger';
 
 const logger: Logger = winstonLogger('debug');
 
