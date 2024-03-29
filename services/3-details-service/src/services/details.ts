@@ -20,7 +20,6 @@ export const editDetailsService = async (data: IDetails, id: string) => {
 };
 
 export const deleteAddressDetailsService = async (id: string, addressId: string) => {
-  // TODO fixed this
   const detail = await Details.updateOne(
     { _id: id },
     {
@@ -48,7 +47,6 @@ export const deleteAddressDetailsService = async (id: string, addressId: string)
 };
 
 export const editAddressDetailsService = async (id: string, addressId: string, data: any) => {
-  // TODO fixed this
   const detail = await Details.updateOne(
     { _id: id, 'items.id': addressId },
     {

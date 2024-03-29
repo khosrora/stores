@@ -28,7 +28,6 @@ export const createCategoryService = async (data: category) => {
 };
 
 export const createSubCategoryService = async (data: category, parentId: string) => {
-  // TODO set validation parent ID
   const validation = checkCreateCategory.validate(data);
   if (validation.error) {
     return {

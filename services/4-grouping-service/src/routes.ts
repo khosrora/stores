@@ -6,7 +6,7 @@ import { brandsRoutes } from '@grouping/routes/brands';
 
 const BASE_PATH_CATEGORY: string = config.BASE_PATH_CATEGORY!;
 const BASE_PATH_BRAND: string = config.BASE_PATH_BRANDS!;
-console.log(BASE_PATH_BRAND);
+
 export const appRoutes = (app: Application): void => {
   app.use('', healthRoutes());
   app.use(BASE_PATH_CATEGORY, categoriesRoutes());

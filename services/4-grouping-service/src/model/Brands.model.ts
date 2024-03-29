@@ -4,14 +4,14 @@ import { IBrands } from '@grouping/utils/Brand.interface';
 const BrandsSchema: Schema<IBrands> = new Schema(
   {
     name: { type: String, required: true, index: true },
-    logo: { type: String, required: false },
     description: { type: String, required: true },
+    isActive: { type: Boolean, default: false },
     branches: {
       type: [
         {
           name: { type: String },
           province: { type: Number },
-          city: { type: String },
+          city: { type: Number },
           address: { type: String },
           workingTime: {
             type: [

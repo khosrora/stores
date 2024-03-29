@@ -2,9 +2,9 @@ import { Document, Types } from 'mongoose';
 
 export interface IBrands extends Document {
   name: string;
-  logo?: string;
   description: string;
-  branches: [branch];
+  branches?: [branch];
+  isActive: boolean;
 }
 
 export type brand = {
