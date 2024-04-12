@@ -10,7 +10,7 @@ async function createConnection(): Promise<Channel | undefined> {
     logger.info('try to connect rabbitemq');
     const connection = await client.connect(config.RABBITMQ_URL!);
     const channel = await connection.createChannel();
-    logger.info('auth connect to rabbitmq');
+    logger.info('detaisl service connect to rabbitmq');
     closeConnection(channel, connection);
     return channel;
   } catch (error) {

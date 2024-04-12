@@ -8,6 +8,7 @@ export class Config {
   public BASE_PATH_DETAILS: string | undefined;
   public BASE_PATH_CATEGORIES: string | undefined;
   public BASE_PATH_BRAND: string | undefined;
+  public BASE_PATH_PRODUCTS: string | undefined;
 
   constructor() {
     this.PORT = process.env.PORT || '';
@@ -16,6 +17,7 @@ export class Config {
     this.BASE_PATH_DETAILS = process.env.BASE_PATH_DETAILS || '';
     this.BASE_PATH_CATEGORIES = process.env.BASE_PATH_CATEGORIES || '';
     this.BASE_PATH_BRAND = process.env.BASE_PATH_BRAND || '';
+    this.BASE_PATH_PRODUCTS = process.env.BASE_PATH_PRODUCTS || '';
   }
 }
 
