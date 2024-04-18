@@ -27,7 +27,6 @@ export const productsRoutes = (): Router => {
 
   router.post('/addTypes/:id', addTypes);
   router.delete('/deleteTypes/:id/:typesId', deleteTypes);
-  // router.edit('/deleteSpecifications/:id/:specId', deleteSpecifications);
 
   return router;
 };
