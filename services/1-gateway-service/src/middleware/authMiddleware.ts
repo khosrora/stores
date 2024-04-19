@@ -1,11 +1,7 @@
 import { config } from '@gateway/config';
 import { Request, Response, NextFunction } from 'express';
 import * as jwt from 'jsonwebtoken';
-
-const validateAccessToken = (accessToken: string): boolean => {
-  const verifyToken = jwt.verify(accessToken, config.ACCESS_TOKEN_SECRET_KEY!);
-  return !!verifyToken ? true : false;
-};
+import { IAuthPayload } from '..';
 
 // Middleware function to check access token
 const checkAccessToken = (req: Request, res: Response, next: NextFunction) => {
@@ -22,12 +18,10 @@ const checkAccessToken = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).json({ error: 'Access token is missing' });
   }
 
-  // Validate the access token
-  if (!validateAccessToken(token)) {
-    return res.status(401).json({ error: 'Invalid access token' });
-  }
+  const verifyToken: IAuthPayload = jwt.verify(token, config.ACCESS_TOKEN_SECRET_KEY!) as IAuthPayload;
 
-  // If the access token is valid, proceed to the next middleware or route handler
+  req.tokenPayload = verifyToken;
+
   next();
 };
 

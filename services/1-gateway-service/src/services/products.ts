@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { config } from '@gateway/config';
+import { IAuthPayload } from '..';
 
 const axiosInstance = axios.create({
   baseURL: config.BASE_PATH_PRODUCTS!,

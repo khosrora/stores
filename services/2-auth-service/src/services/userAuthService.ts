@@ -121,5 +121,5 @@ const createRefreshToken = async (id: string): Promise<string> => jwt.sign({ id 
 
 const createAccessToken = async (refreshToken: string) => {
   const { id } = (await jwt.verify(refreshToken, config.REFRESH_SECRET!)) as JwtPayload;
-  return jwt.sign({ id }, config.ACCESS_SECRET!, { expiresIn: '15d' });
+  return jwt.sign({ id }, config.ACCESS_SECRET!, { expiresIn: '1d' });
 };
