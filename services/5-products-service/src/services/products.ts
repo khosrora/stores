@@ -298,4 +298,4 @@ const updateProductInElastic = async (product: IProductDoc) => {
   } catch (error) {
     console.log(error);
   }
-};
+}
