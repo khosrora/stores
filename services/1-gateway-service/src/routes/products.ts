@@ -9,16 +9,18 @@ import {
   deleteAttributes,
   deleteSpecifications,
   addTypes,
-  deleteTypes
+  deleteTypes,
+  deleteProduct
 } from '@gateway/controllers/products.controller';
 import checkAccessToken from '@gateway/middleware/authMiddleware';
 
 const router: Router = express.Router();
 
 export const productsRoutes = (): Router => {
-  router.get('/products/get_all_products', getAll);
+  router.get('/products/get_all_products/', getAll);
   router.post('/products/create', checkAccessToken, create);
   router.get('/products/isActive/:id', checkAccessToken, isActive);
+  router.delete('/products/delete/:id', checkAccessToken, deleteProduct);
 
   router.post('/products/addAttributes/:id', checkAccessToken, addAttributes);
   router.post('/products/addSpecifications/:id', checkAccessToken, addSpecifications);

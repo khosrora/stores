@@ -8,10 +8,11 @@ import {
   deleteAttributesService,
   deleteSpecificationsService,
   addTypesService,
-  deleteTypesService
+  deleteTypesService,
+  deleteProductService
 } from '@gateway/services/products';
 
-async function getAll(_req: Request, res: Response): Promise<void> {
+async function getAll(req: Request, res: Response): Promise<void> {
   const response = await get_all_products();
   res.status(response.data.status).json(response.data);
 }
@@ -23,6 +24,11 @@ async function create(req: Request, res: Response): Promise<void> {
 
 async function isActive(req: Request, res: Response): Promise<void> {
   const response = await isActive_orNot(req.params.id);
+  res.status(response.data.status).json(response.data);
+}
+
+async function deleteProduct(req: Request, res: Response): Promise<void> {
+  const response = await deleteProductService(req.params.id);
   res.status(response.data.status).json(response.data);
 }
 
@@ -56,4 +62,15 @@ async function deleteTypes(req: Request, res: Response): Promise<void> {
   res.status(response.data.status).json(response.data);
 }
 
-export { getAll, create, isActive, addAttributes, addSpecifications, deleteAttributes, deleteSpecifications, addTypes, deleteTypes };
+export {
+  getAll,
+  create,
+  isActive,
+  addAttributes,
+  addSpecifications,
+  deleteAttributes,
+  deleteSpecifications,
+  addTypes,
+  deleteTypes,
+  deleteProduct
+};

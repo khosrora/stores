@@ -4,9 +4,22 @@ npm i
 //pino-pretty
 //winston
 //http-status-codes
-//mongoose @types/mongoose
+//mongoose 
+//jsonwebtoken
+//joi
+//amqplib
+//nodemon
+@elastic/elasticsearch
+
+
 
 // ts install
-npm i -D typescript @types/express @types/node @types/winston nodemon
+
+npm i -D typescript @types/express @types/node @types/winston 
 npm i -D tsconfig-paths typescript-transform-paths
 npm i -D ts-node
+@types/jsonwebtoken
+@types/mongoose
+@types/joi
+@types/amqplib
+@types/elasticsearch

@@ -22,6 +22,11 @@ const isActive_orNot = async (id: string): Promise<AxiosResponse> => {
   return res;
 };
 
+const deleteProductService = async (id: string): Promise<AxiosResponse> => {
+  const res = await axiosInstance.delete(`/delete/${id}`);
+  return res;
+};
+
 const addAttributesService = async (id: string, data: any): Promise<AxiosResponse> => {
   const res = await axiosInstance.post(`/addAttributes/${id}`, data);
   return res;
@@ -61,5 +66,6 @@ export {
   deleteAttributesService,
   deleteSpecificationsService,
   addTypesService,
-  deleteTypesService
+  deleteTypesService,
+  deleteProductService
 };
