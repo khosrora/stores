@@ -9,6 +9,7 @@ export class Config {
   public BASE_PATH_CATEGORIES: string | undefined;
   public BASE_PATH_BRAND: string | undefined;
   public BASE_PATH_PRODUCTS: string | undefined;
+  public BASE_PATH_ORDERS: string | undefined;
   public ACCESS_TOKEN_SECRET_KEY: string | undefined;
 
   constructor() {
@@ -19,6 +20,7 @@ export class Config {
     this.BASE_PATH_CATEGORIES = process.env.BASE_PATH_CATEGORIES || '';
     this.BASE_PATH_BRAND = process.env.BASE_PATH_BRAND || '';
     this.BASE_PATH_PRODUCTS = process.env.BASE_PATH_PRODUCTS || '';
+    this.BASE_PATH_ORDERS = process.env.BASE_PATH_ORDERS || '';
     this.ACCESS_TOKEN_SECRET_KEY = process.env.ACCESS_TOKEN_SECRET_KEY || '';
   }
 }

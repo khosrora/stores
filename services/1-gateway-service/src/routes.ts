@@ -6,9 +6,9 @@ import { detailsRoutes } from './routes/details';
 import { categoriesRoutes } from './routes/categories';
 import { brandsRoutes } from './routes/brands';
 import { productsRoutes } from './routes/products';
+import { orderRoutes } from './routes/orders';
 
 const BASE_PATH: string = config.BASE_PATH!;
-
 
 export const appRoutes = (app: Application): void => {
   app.use(BASE_PATH, healthRoutes());
@@ -17,4 +17,5 @@ export const appRoutes = (app: Application): void => {
   app.use(BASE_PATH, categoriesRoutes());
   app.use(BASE_PATH, brandsRoutes());
   app.use(BASE_PATH, productsRoutes());
+  app.use(BASE_PATH, orderRoutes());
 };
