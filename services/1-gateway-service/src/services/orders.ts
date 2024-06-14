@@ -11,4 +11,9 @@ const test_service = async (): Promise<AxiosResponse> => {
   return res;
 };
 
-export { test_service };
+const createOrder_service = async (data: any): Promise<AxiosResponse> => {
+  const res = await axiosInstance.post(`/create_order`, data);
+  return res;
+};
+
+export { test_service, createOrder_service };

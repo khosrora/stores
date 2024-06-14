@@ -1,5 +1,5 @@
-import { Model, DataType } from 'sequelize-typescript';
 import sequelize from '@order/db';
+import { DataType, Model } from 'sequelize-typescript';
 
 enum StateOrder {
   isPending = 'isPending',
@@ -9,44 +9,58 @@ enum StateOrder {
 }
 
 type order = {
-  id: number;
-  idProduct: number;
-  idStore: number;
+  id?: number;
+  idProduct: string;
+  idStore: string;
   count: number;
+  price: number;
   totalPrice: number;
   state: StateOrder;
 };
 
-class Order extends Model {
-  public id!: number;
-  public uniqueId!: number;
-  public userId!: number;
-  public orders!: order[];
-}
+export type OrderType = {
+  id?: number;
+  uniqueId: number;
+  userId: string;
+  orders: order[];
+  createdAt?: Date;
+  updatedAt?: Date;
+};
 
-Order.init(
+const Order = sequelize.define<Model<OrderType>>(
+  'order',
   {
     id: {
       type: DataType.INTEGER,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
     },
     uniqueId: {
       type: DataType.INTEGER,
       allowNull: false
     },
     userId: {
-      type: DataType.INTEGER,
+      type: DataType.STRING,
       allowNull: false
     },
     orders: {
       type: DataType.JSONB,
       allowNull: false
+    },
+    createdAt: {
+      type: DataType.DATE,
+      allowNull: true
+    },
+    updatedAt: {
+      type: DataType.DATE,
+      allowNull: true
     }
   },
   {
-    sequelize,
-    modelName: 'Order'
+    timestamps: true // Enable timestamps
   }
 );
 
-export default Order;
+Order.sync({});
+export { Order };
