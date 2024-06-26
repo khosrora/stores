@@ -21,6 +21,13 @@ services:
       - '5672:5672'
       # MANAGMENTS UI
       - '15672:15672'
+
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   elasticsearch:
     container_name: elasticsearch_container
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.1
@@ -33,7 +40,7 @@ services:
       xpack.security.authc.api_key.enabled: "true"
       xpack.monitoring.collection.enabled: "true"
       xpack.security.enrollment.enabled: "true"
-      xpack.ml.enabled: false
+      xpack.ml.enabled: "false"
     ports:
       - 9200:9200
       - 9300:9300
@@ -51,3 +58,20 @@ services:
       - ./kibana.yml/:/usr/share/kibana/config/kibana.yml:ro
     depends_on:
       - elasticsearch
+      
+  notifications_service:
+    container_name: notifications_service_container
+    build:
+      context: /home/toni/stores/services/notifications_service  # Path to your DRF project Dockerfile or code
+    restart: always
+    ports:
+      - 8000:8000  # Assuming your DRF project runs on port 8000
+    environment:
+      # Define environment variables as needed for your DRF project
+      - DEBUG=1
+      - DJANGO_SETTINGS_MODULE=notifications_service.settings  # Adjust based on your Django settings module
+      - CELERY_BROKER_URL=amqp://rabbitmq_container_store
+    volumes:
+      - /home/toni/stores/services/notifications_service/notifications_service/settings.py  # Example of volume mount
+    depends_on:
+      - rabbitmq  # Ensure notifications_service starts after RabbitMQ
